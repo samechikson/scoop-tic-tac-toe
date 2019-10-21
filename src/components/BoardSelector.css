@@ -1,0 +1,20 @@
+.Board-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.Board-column {
+  display: flex;
+  flex-direction: row;
+}
+
+.Board-cell {
+  width: 15px;
+  height: 15px;
+  border: 1px solid rgba(30,30,30, 0.5);
+  background: rgba(63, 72, 200, .3);
+}
+
+.Board-cell.Inside-selection {
+  background: rgba(100, 100, 100, .3);
+}
