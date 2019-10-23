@@ -91,7 +91,7 @@ export default class Board extends React.Component<IBoardProps, IBoardState> {
     return (
       <div className="Game">
         {mainDisplay}
-        {this.state.isWinner && <button onClick={() => this.restart()}>Restart</button>}
+        {this.state.isWinner && <button className="Restart-button" onClick={() => this.restart()}>Restart</button>}
       </div>
     );
   }

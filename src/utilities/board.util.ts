@@ -49,13 +49,5 @@ function isDiagonalWinner(board: any[][]): boolean {
 }
 
 export function determineWinner(board: any[][]): boolean {
-  const testFunctions = [
-    isHorizontalWinner, 
-    isVerticalWinner, 
-    isDiagonalWinner
-  ];
-
-  // return testFunctions.reduce((prev, currFn) => prev || currFn(board));
   return isHorizontalWinner(board) || isVerticalWinner(board) || isDiagonalWinner(board);
-  // return isDiagonalWinner(board);
 }
