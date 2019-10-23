@@ -48,6 +48,26 @@ function isDiagonalWinner(board: any[][]): boolean {
   return isGameWinner(topLeftBottomRight) || isGameWinner(topRightBottomLeft);
 }
 
-export function determineWinner(board: any[][]): boolean {
+/**
+ * Determine if the game board has a winner
+ * Check all possible "lines" of victory: same letters on entire row, entire column, or entire diagonal
+ * @param board the game board - a two-dimensional array of 'x', 'o' and nulls
+ */
+export function isWinner(board: any[][]): boolean {
   return isHorizontalWinner(board) || isVerticalWinner(board) || isDiagonalWinner(board);
+}
+
+/**
+ * Loop through board - if there are any nulls, there are moves left to play, so not full
+ * @param board the game board - a two-dimensional array of 'x', 'o' and nulls
+ */
+export function isBoardFull(board: any[][]): boolean {
+  for (let col = 0; col < board.length; col++) {
+    for (let cell = 0; cell < board.length; cell++) {
+      if (!board[col][cell]) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
