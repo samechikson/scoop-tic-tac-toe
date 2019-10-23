@@ -10,18 +10,21 @@ export interface IBoardProps {
 export interface IBoardState {
   size: number;
   game: any[][];
-  isPlayerX: boolean;
+  isCurrentTurnX: boolean;
+  isWinner: boolean;
 }
 
 export default class Board extends React.Component<IBoardProps, IBoardState> {
+  initialState: IBoardState = {
+    size: 0,
+    game: [],
+    isCurrentTurnX: true,
+    isWinner: false
+  }
   constructor(props: IBoardProps) {
     super(props);
 
-    this.state = {
-      size: 0,
-      game: [],
-      isPlayerX: true
-    }
+    this.state = {...this.initialState}
   }
 
   selectBoardSize(size: number) {
@@ -34,37 +37,61 @@ export default class Board extends React.Component<IBoardProps, IBoardState> {
 
   clickCell(column: number, row: number) {
     const newColumn = this.state.game[column].slice()
-    newColumn[row] = this.state.isPlayerX ? 'x' : 'o';
+    newColumn[row] = this.state.isCurrentTurnX ? 'x' : 'o';
     const newGame = this.state.game.slice();
     newGame[column] = newColumn;
 
-    determineWinner(newGame);
+    if (determineWinner(newGame)) {
+      this.setState({
+        game: newGame,
+        isWinner: true
+      })
+      return;
+    };
 
     this.setState({
       game: newGame,
-      isPlayerX: !this.state.isPlayerX
+      isCurrentTurnX: !this.state.isCurrentTurnX
     })
   }
 
+  renderGameStatus() {
+    return this.state.isWinner ? 
+      <p>{this.state.isCurrentTurnX ? 'X' : 'O'} is the Winner!</p> :
+      <p>Current turn: {this.state.isCurrentTurnX ? 'X' : 'O'} </p>
+  }
+
+  renderBoardGame() {
+    return <div className="Board-container">
+      {this.state.game.map((column: any[], i) =>
+        <div key={`board-column-${i}`} className="Board-column">
+          {column.map((row, j) => {
+            return <Cell
+              key={`board-cell-${i}${j}`}
+              value={row}
+              onClick={() => !this.state.isWinner && this.clickCell(i, j)} />
+          })}
+        </div>
+      )}
+      {this.renderGameStatus()}
+    </div>
+  }
+
+  restart() {
+    this.setState({...this.initialState})
+  }
+
   public render() {
+    let mainDisplay;
+    if (!this.state.game.length) {
+      mainDisplay = <BoardSelector onBoardSizeSelect={(size: number) => this.selectBoardSize(size)} />
+    } else {
+      mainDisplay = this.renderBoardGame()
+    }
     return (
-      <div>
-        <BoardSelector
-          onBoardSizeSelect={(size: number) => this.selectBoardSize(size) }
-          ></BoardSelector>
-          <hr></hr>
-          <div className="Board-container">
-            { this.state.game.map((column: any[], i) => 
-              <div key={`board-column-${i}`} className="Board-column">
-                {column.map((row, j) => {
-                  return <Cell 
-                          key={`board-cell-${i}${j}`} 
-                          value={row} 
-                          onClick={() => this.clickCell(i, j)}/>
-                })}
-              </div>
-            )}
-          </div>
+      <div className="Game">
+        {mainDisplay}
+        {this.state.isWinner && <button onClick={() => this.restart()}>Restart</button>}
       </div>
     );
   }

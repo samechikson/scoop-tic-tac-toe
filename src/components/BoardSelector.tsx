@@ -39,6 +39,7 @@ export default class BoardSelector extends React.PureComponent<IBoardSelectorPro
   public render() {
     return (
       <div className="Board-container">
+        <p>Select board size: </p>
         { Array(this.maxSizeBoard).fill(0).map((_, i) => {
           return <div key={i} className="Board-column">
             {Array(this.maxSizeBoard).fill(0).map((_, j) => this.renderCell(i, j) )}

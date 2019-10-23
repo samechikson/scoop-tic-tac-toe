@@ -56,6 +56,6 @@ export function determineWinner(board: any[][]): boolean {
   ];
 
   // return testFunctions.reduce((prev, currFn) => prev || currFn(board));
-  // return isHorizontalWinner(board) || isVerticalWinner(board) || isDiagonalWinner(board);
-  return isDiagonalWinner(board);
+  return isHorizontalWinner(board) || isVerticalWinner(board) || isDiagonalWinner(board);
+  // return isDiagonalWinner(board);
 }
