@@ -30,9 +30,10 @@ export default class BoardSelector extends React.PureComponent<IBoardSelectorPro
 
   renderCell(column: number, row: number) {
     return <div key={`${column}${row}`}
-      className={`Board-cell ${this.isCellInSelection(column, row) && 'Inside-selection'}`}
-      onMouseOver={this.onHoverCell.bind(this, column > row ? column : row)}
-      onClick={_ => this.props.onBoardSizeSelect((column > row ? column : row) + 1)}></div>
+                className={`Board-cell ${this.isCellInSelection(column, row) && 'Outside-selection'}`}
+                onMouseOver={this.onHoverCell.bind(this, column > row ? column : row)}
+                onClick={_ => this.props.onBoardSizeSelect((column > row ? column : row) + 1)}>
+          </div>
   }
 
   public render() {

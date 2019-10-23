@@ -2,6 +2,7 @@ import * as React from 'react';
 import BoardSelector from './BoardSelector';
 import { Cell } from './Cell';
 import './Board.css';
+import { determineWinner } from '../utilities/board.util';
 
 export interface IBoardProps {
 }
@@ -9,6 +10,7 @@ export interface IBoardProps {
 export interface IBoardState {
   size: number;
   game: any[][];
+  isPlayerX: boolean;
 }
 
 export default class Board extends React.Component<IBoardProps, IBoardState> {
@@ -17,7 +19,8 @@ export default class Board extends React.Component<IBoardProps, IBoardState> {
 
     this.state = {
       size: 0,
-      game: []
+      game: [],
+      isPlayerX: true
     }
   }
 
@@ -31,12 +34,15 @@ export default class Board extends React.Component<IBoardProps, IBoardState> {
 
   clickCell(column: number, row: number) {
     const newColumn = this.state.game[column].slice()
-    newColumn[row] = 'x';
+    newColumn[row] = this.state.isPlayerX ? 'x' : 'o';
     const newGame = this.state.game.slice();
     newGame[column] = newColumn;
 
+    determineWinner(newGame);
+
     this.setState({
-      game: newGame
+      game: newGame,
+      isPlayerX: !this.state.isPlayerX
     })
   }
 

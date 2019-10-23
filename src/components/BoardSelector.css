@@ -15,6 +15,6 @@
   background: rgba(63, 72, 200, .3);
 }
 
-.Board-cell.Inside-selection {
+.Board-cell.Outside-selection {
   background: rgba(100, 100, 100, .3);
 }
